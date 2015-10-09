@@ -1,13 +1,10 @@
 var gulp = require('gulp');
-var jade = require('gulp-jade');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var gulpif = require('gulp-if');
 var sequence = require('gulp-sequence');
 var webserver = require('gulp-webserver');
 var minifycss = require('gulp-minify-css');
-// gulp-autoprefixer
-//var rimraf = require('rimraf');
 var del = require('del');
 
 var argv = require('yargs').argv;
@@ -16,14 +13,17 @@ var argv = require('yargs').argv;
 var isProduction = !!(argv.production);
 var dst = {
   public: './server/public'
-  , views: './server/views'
+  , server: './server'
 };
 var port = 8001;
 
 var paths = {
-  scripts: ['./src/**/*.js']
+  scripts: {
+    client: ['./src/public/*.js']
+    , server: ['./src/**/*.js', '!./src/public/*.js']
+  }
   , css: ['./src/**/*.css']
-  , jade: ['./src/views/**/*.jade']
+  , jade: ['./src/**/*.jade']
   , static: [
     './src/**/*.html'
     , './src/**/*.png'
@@ -36,7 +36,6 @@ var paths = {
       //, './bower_components/jqueryui/ui/core.js'
       //, './bower_components/jqueryui/ui/widget.js'
       //, './bower_components/jqueryui/ui/mouse.js'
-      //, './bower_components/jqueryui/ui/selectable.js'
       , './bower_components/bootstrap/dist/js/bootstrap.js'
       , './bower_components/modernizr/modernizr.js'
       //, './bower_components/shufflejs/dist/jquery.shuffle.js'
@@ -79,16 +78,9 @@ gulp.task('libs:FONTS', function() {
 
 gulp.task('libs', sequence(['libs:JS', 'libs:CSS', 'libs:FONTS']));
 
-gulp.task('jadex', function() {
-  return gulp.src(paths.jade)
-    .pipe(gulpif(isProduction, jade(), jade({ pretty: true })))
-    .pipe(gulp.dest(dst.public))
-  ;
-});
-
 gulp.task('jade', function() {
   return gulp.src(paths.jade)
-    .pipe(gulp.dest(dst.views))
+    .pipe(gulp.dest(dst.server))
   ;
 });
 
@@ -100,11 +92,19 @@ gulp.task('css', function() {
   ;
 });
 
-gulp.task('js', function() {
-  return gulp.src(paths.scripts)
+gulp.task('js:client', function() {
+  return gulp.src(paths.scripts.client)
     .pipe(gulpif(isProduction, uglify()))
     .pipe(concat('custom.js'))
     .pipe(gulp.dest(dst.public + '/js/'))
+  ;
+});
+
+gulp.task('js:server', function() {
+  return gulp.src(paths.scripts.server)
+    .pipe(gulpif(isProduction, uglify()))
+    //.pipe(concat('custom.js'))
+    .pipe(gulp.dest(dst.server))
   ;
 });
 
@@ -115,8 +115,8 @@ gulp.task('copy', function() {
 
 /***************************************************************/
 
-gulp.task('public', sequence(['libs','css','js'])); // to public folder (js, css, static stuff)
-gulp.task('server', sequence(['jade','copy'])); // to server folder (jade, express.js)
+gulp.task('public', sequence(['libs', 'css', 'js:client'])); // to public folder (js, css, static stuff like pdf or images)
+gulp.task('server', sequence(['jade', 'copy', 'js:server'])); // to server folder (jade, express.js)
 
 /***************************************************************/
 
@@ -125,9 +125,7 @@ gulp.task('default', sequence(['public', 'server']));
 /***************************************************************/
 
 gulp.task('clean', function(cb) { 
-  //rimraf([dst.public, dst.views], cb); 
-  //rimraf(dst.views, cb); 
-  return del([dst.public+'/**', dst.views+'/**']);
+  return del([dst.server]);
 });
 
 /***************************************************************/
@@ -136,7 +134,7 @@ gulp.task('rebuild', sequence('clean', 'default'));
 
 /***************************************************************/
 
-// Starts a test server, which you can view at http://localhost:post
+// Starts a test server, which you can view at http://localhost:port
 gulp.task('run', ['default'], function() {
   gulp.src(dst.public)
     .pipe(webserver({
