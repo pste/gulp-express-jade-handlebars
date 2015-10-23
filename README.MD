@@ -8,7 +8,7 @@ This is an empty *express.js* app to be used as a startup.
 2. cd gulp-express-jade-handlebars
 3. npm install
 4. bower install
-5. gulp 
+5. gulp watch
 6. npm start
 7. (test the app) http://localhost:7000
 8. start coding! =)
@@ -37,3 +37,6 @@ The previous tree structure will be 'built' by **gulp** into the following:
   - router/ <- server stuff
   - app.js <- server stuff
   
+## NOTES
+
+The Express server *doesn't auto restart* after a change.

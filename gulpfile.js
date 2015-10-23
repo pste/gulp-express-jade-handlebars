@@ -137,6 +137,7 @@ gulp.task('rebuild', sequence('clean', 'default'));
 /***************************************************************/
 
 // Starts a test server, which you can view at http://localhost:port
+// actually unused, because we're making our own express server
 gulp.task('run', ['default'], function() {
   gulp.src(dst.public)
     .pipe(webserver({
@@ -152,9 +153,9 @@ gulp.task('run', ['default'], function() {
 /***************************************************************/
 
 // Default task: builds your app, starts a server, and recompiles assets when they change
-// actually unused, because we're making our own express server
-gulp.task('watch', ['run'], function () {
-  gulp.watch(paths.scripts, ['js']);
+gulp.task('watch', ['default'], function () {
+  gulp.watch(paths.scripts.client, ['js:client']);
+  gulp.watch(paths.scripts.server, ['js:server']);
   gulp.watch(paths.css, ['css']);
   gulp.watch(paths.jade, ['jade']);
   gulp.watch(paths.static, ['copy']);

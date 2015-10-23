@@ -23,6 +23,8 @@ app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', routes.home);
+app.get('/partials/:name', routes.partials);
+// app.get('/templates/:name', routes.templates);
 
 if (app.get('env') === 'development') {
   app.locals.pretty = true;
@@ -42,7 +44,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     var errcode = err.status || 500;
-    logs.error("* Error (dev) "+errcode+" *: " + JSON.stringify(req));
+    logs.error("* Error (dev) "+errcode+" *: ");
     res.status(errcode);
     res.render('error', {
       status: err.status,
