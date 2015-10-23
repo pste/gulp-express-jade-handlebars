@@ -1,7 +1,11 @@
 {
   "name": "gulp-express-jade-handlebars",
   "version": "1.0.0",
-  "description": "gulp-express-jade-handlebars/",
+  "description": "gulp-express-jade-handlebars",
+  "repository" :
+  { "type" : "git"
+    , "url" : "https://github.com/pste/gulp-express-jade-handlebars"
+  },
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

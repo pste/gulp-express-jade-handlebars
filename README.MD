@@ -4,12 +4,14 @@ This is an empty *express.js* app to be used as a startup.
 
 ## STEPS
 
-1. git clone ...
-2. npm install
-3. gulp 
-4. npm start
-5. (test the app) http://localhost:7000
-6. start coding! =)
+1. git clone https://github.com/pste/gulp-express-jade-handlebars
+2. cd gulp-express-jade-handlebars
+3. npm install
+4. bower install
+5. gulp 
+6. npm start
+7. (test the app) http://localhost:7000
+8. start coding! =)
 
 ## TREE STRUCTURE
 
