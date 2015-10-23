@@ -19,10 +19,10 @@ var port = 8001;
 
 var paths = {
   scripts: {
-    client: ['./src/public/*.js']
-    , server: ['./src/**/*.js', '!./src/public/*.js']
+    client: ['./src/public/js/**/*.js']
+    , server: ['./src/**/*.js', '!./src/public/**/*.js']
   }
-  , css: ['./src/**/*.css']
+  , css: ['./src/public/css/**/*.css']
   , jade: ['./src/**/*.jade']
   , static: [
     './src/**/*.html'
@@ -39,10 +39,12 @@ var paths = {
       , './bower_components/bootstrap/dist/js/bootstrap.js'
       , './bower_components/modernizr/modernizr.js'
       //, './bower_components/shufflejs/dist/jquery.shuffle.js'
+      , './src/public/libs/**/*.js'
     ]
     , CSS: [
       './bower_components/bootstrap/dist/css/bootstrap.css'
       , './bower_components/font-awesome/css/font-awesome.css'
+      , './src/public/libs/**/*.css'
     ]
     , FONTS: [
       './bower_components/font-awesome/fonts/*.*'
@@ -150,6 +152,7 @@ gulp.task('run', ['default'], function() {
 /***************************************************************/
 
 // Default task: builds your app, starts a server, and recompiles assets when they change
+// actually unused, because we're making our own express server
 gulp.task('watch', ['run'], function () {
   gulp.watch(paths.scripts, ['js']);
   gulp.watch(paths.css, ['css']);
