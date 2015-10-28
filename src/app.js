@@ -44,7 +44,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     var errcode = err.status || 500;
-    logs.error("* Error (dev) "+errcode+" *: ");
+    logs.error("* Error (dev) "+errcode+" *: " + util.inspect(req.url));
     res.status(errcode);
     res.render('error', {
       status: err.status,

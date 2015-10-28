@@ -1,3 +1,4 @@
+var path = require('path');
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
@@ -11,10 +12,7 @@ var argv = require('yargs').argv;
 
 // Check for --production flag
 var isProduction = !!(argv.production);
-var dst = {
-  public: './server/public'
-  , server: './server'
-};
+var dst = './server';
 var port = 8001;
 
 var paths = {
@@ -34,8 +32,6 @@ var paths = {
       './bower_components/jquery/dist/jquery.js'
       , './bower_components/handlebars/handlebars.js'
       //, './bower_components/jqueryui/ui/core.js'
-      //, './bower_components/jqueryui/ui/widget.js'
-      //, './bower_components/jqueryui/ui/mouse.js'
       , './bower_components/bootstrap/dist/js/bootstrap.js'
       , './bower_components/modernizr/modernizr.js'
       //, './bower_components/shufflejs/dist/jquery.shuffle.js'
@@ -58,7 +54,7 @@ gulp.task('libs:JS', function() {
   return gulp.src(paths.libs.JS)
     .pipe(gulpif(isProduction, uglify()))
     .pipe(concat('libs.js'))
-    .pipe(gulp.dest(dst.public + '/libs/js/'))
+    .pipe(gulp.dest(path.join(dst, 'public/libs/js/')))
   ;
 });
 
@@ -66,13 +62,13 @@ gulp.task('libs:CSS', function() {
   return gulp.src(paths.libs.CSS)
     .pipe(gulpif(isProduction, minifycss()))
     .pipe(concat('libs.css'))
-    .pipe(gulp.dest(dst.public + '/libs/css/'))
+    .pipe(gulp.dest(path.join(dst, 'public/libs/css/')))
   ;
 });
 
 gulp.task('libs:FONTS', function() {
   return gulp.src(paths.libs.FONTS)
-    .pipe(gulp.dest(dst.public + '/libs/fonts/'))
+    .pipe(gulp.dest(path.join(dst, 'public/libs/fonts/')))
   ;
 });
 
@@ -82,7 +78,7 @@ gulp.task('libs', sequence(['libs:JS', 'libs:CSS', 'libs:FONTS']));
 
 gulp.task('jade', function() {
   return gulp.src(paths.jade)
-    .pipe(gulp.dest(dst.server))
+    .pipe(gulp.dest(dst))
   ;
 });
 
@@ -90,7 +86,7 @@ gulp.task('css', function() {
   return gulp.src(paths.css)
     .pipe(gulpif(isProduction, minifycss()))
     .pipe(concat('custom.css'))
-    .pipe(gulp.dest(dst.public + '/css/'))
+    .pipe(gulp.dest(path.join(dst, 'public/css/')))
   ;
 });
 
@@ -98,7 +94,7 @@ gulp.task('js:client', function() {
   return gulp.src(paths.scripts.client)
     .pipe(gulpif(isProduction, uglify()))
     .pipe(concat('custom.js'))
-    .pipe(gulp.dest(dst.public + '/js/'))
+    .pipe(gulp.dest(path.join(dst, 'public/js/')))
   ;
 });
 
@@ -106,13 +102,13 @@ gulp.task('js:server', function() {
   return gulp.src(paths.scripts.server)
     .pipe(gulpif(isProduction, uglify()))
     //.pipe(concat('custom.js'))
-    .pipe(gulp.dest(dst.server))
+    .pipe(gulp.dest(dst))
   ;
 });
 
 gulp.task('copy', function() {
   gulp.src(paths.static)
-    .pipe(gulp.dest(dst.public));
+    .pipe(gulp.dest(path.join(dst, 'public/')));
 });
 
 /***************************************************************/
@@ -127,7 +123,7 @@ gulp.task('default', sequence(['public', 'server']));
 /***************************************************************/
 
 gulp.task('clean', function(cb) { 
-  return del([dst.server]);
+  return del([dst]);
 });
 
 /***************************************************************/
@@ -139,7 +135,7 @@ gulp.task('rebuild', sequence('clean', 'default'));
 // Starts a test server, which you can view at http://localhost:port
 // actually unused, because we're making our own express server
 gulp.task('run', ['default'], function() {
-  gulp.src(dst.public)
+  gulp.src(path.join(dst, 'public'))
     .pipe(webserver({
       port: port,
       host: 'localhost',
