@@ -1,7 +1,9 @@
 # gulp-express-jade-handlebars
 
 This is an empty *express.js* app to be used as a mold project.
+
 Server side it includes: express.js, jade
+
 Client side it includes: jQuery, Bootstrap, Handlebars, Font Awesome
 
 ## STEPS
