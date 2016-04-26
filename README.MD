@@ -1,6 +1,8 @@
 # gulp-express-jade-handlebars
 
-This is an empty *express.js* app to be used as a startup.
+This is an empty *express.js* app to be used as a mold project.
+Server side it includes: express.js, jade
+Client side it includes: jQuery, Bootstrap, Handlebars, Font Awesome
 
 ## STEPS
 
@@ -9,7 +11,7 @@ This is an empty *express.js* app to be used as a startup.
 3. npm install
 4. bower install
 5. gulp watch
-6. npm start
+6. (open another shell, then) npm start
 7. (test the app) http://localhost:7000
 8. start coding! =)
 
