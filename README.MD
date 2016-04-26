@@ -19,24 +19,24 @@ Client side it includes: jQuery, Bootstrap, Handlebars, Font Awesome
 
 ## TREE STRUCTURE
 
-There are two working folder: *src/* and *server/*. The first is where to code, the second is handled by **Gulp** and is where the server is running.
+There are two working folder: *src/* and *server/*. The former is where to code, the latter is handled by **Gulp** and is where the server is running.
 Remember: a gulp clean will **empty** the server/ folder!
 
-So this is the src tree:
+This is the src tree:
 - src/
   - public/ <- 1:1 with the client
     - css/ <- custom css files
     - js/ <- custom js files
   - views/ <- all jade views
   - router/ <- here are your express.js routes
-  - app.js <- this is the express.js engine
+  - app.js <- the express.js engine
   
 The previous tree structure will be 'built' by **gulp** into the following:
 - server/
   - public/ <- client stuff
     - css/
     - js/
-    - libs/ <- this contains every needed lib (jQuery, Bootstrap, FontAwesome, ...)
+    - libs/ <- contains every needed lib (jQuery, Bootstrap, FontAwesome, ...)
   - views/ <- server stuff
   - router/ <- server stuff
   - app.js <- server stuff
