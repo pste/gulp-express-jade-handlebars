@@ -8,12 +8,12 @@ Client side it includes: jQuery, Bootstrap, Handlebars, Font Awesome
 
 ## STEPS
 
-1. git clone https://github.com/pste/gulp-express-jade-handlebars
-2. cd gulp-express-jade-handlebars
+1. create a directory for you project, then cd <yournewdir>
+2. git clone https://github.com/pste/gulp-express-jade-handlebars .
 3. npm install
 4. bower install
-5. gulp watch
-6. (open another shell, then) npm start
+5. (open another shell, then) gulp watch
+6. npm start
 7. (test the app) http://localhost:7000
 8. start coding! =)
 
