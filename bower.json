@@ -16,6 +16,7 @@
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
     "font-awesome": "~4.4.0",
-    "handlebars": "~4.0.3"
+    "handlebars": "~4.0.3",
+    "babel": "https://github.com/babel/babel.git#^6.7.7"
   }
 }

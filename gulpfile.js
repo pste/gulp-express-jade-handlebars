@@ -5,7 +5,8 @@ var concat = require('gulp-concat');
 var gulpif = require('gulp-if');
 var sequence = require('gulp-sequence');
 var webserver = require('gulp-webserver');
-var minifycss = require('gulp-minify-css');
+var minifycss = require('gulp-clean-css');
+var babel = require('gulp-babel');
 var del = require('del');
 
 var argv = require('yargs').argv;
@@ -18,7 +19,7 @@ var port = 8001;
 var paths = {
   scripts: {
     client: ['./src/public/js/**/*.js']
-    , server: ['./src/**/*.js', '!./src/public/**/*.js']
+    , server: ['./src/**/*.js', '!./src/public/**/*.js'] // negation is fully supported non Gulp
   }
   , css: ['./src/public/css/**/*.css']
   , jade: ['./src/**/*.jade']
@@ -92,6 +93,7 @@ gulp.task('css', function() {
 
 gulp.task('js:client', function() {
   return gulp.src(paths.scripts.client)
+    .pipe(babel())
     .pipe(gulpif(isProduction, uglify()))
     .pipe(concat('custom.js'))
     .pipe(gulp.dest(path.join(dst, 'public/js/')))
@@ -100,8 +102,8 @@ gulp.task('js:client', function() {
 
 gulp.task('js:server', function() {
   return gulp.src(paths.scripts.server)
+    .pipe(babel())
     .pipe(gulpif(isProduction, uglify()))
-    //.pipe(concat('custom.js'))
     .pipe(gulp.dest(dst))
   ;
 });
