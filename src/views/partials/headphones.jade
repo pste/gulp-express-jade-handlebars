@@ -1,8 +1,12 @@
 h1 Welcome to a partial page!
 
-div.boxes
+div#boxes
   // {{#each .}}
   span.file.label.label-primary {{this}}
   // {{/each}} 
 
-script handlebar_bind($('.boxes'), ['one','two','three','four'])
+script.
+  var container = $('#boxes');
+  var template = Handlebars.compile(container.html());
+  var data = ['one','two','three','four','and five'];
+  container.html(template(data));
