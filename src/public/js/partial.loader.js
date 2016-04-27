@@ -5,4 +5,5 @@ $("a").click(function(e) {
 
   var href = $(this).attr("href");
   if (href !== '#') $("#content").load(href);
+  return false;
 });
